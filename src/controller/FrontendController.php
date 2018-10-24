@@ -8,16 +8,24 @@ class FrontendController {
     }
     
     public function index() {
-        $articles = $this->articleRepository->findAll();
-        $view = new Template();
-        $view->title = "Cool CMS";        
-        $view->articles = $articles;
-        echo $view->render('site.php');
+        $this->renderSite();
     }
     
     public function viewArticle() {
         $id = $_GET['id'];
-        echo $id;
+        $article = $this->articleRepository->findByID($id);
+        $this->renderSite($article);
+    }
+    
+    private function renderSite($article = null) {
+        $articles = $this->articleRepository->findAll();
+        $view = new Template();
+        $view->title = "Cool CMS";        
+        $view->articles = $articles;
+        if ($article !== null) {
+            $view->article = $article;
+        }
+        echo $view->render('site.php');
     }
     
 }
