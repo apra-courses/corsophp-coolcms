@@ -10,5 +10,7 @@
         "classmap": ["src"],
         "exclude-from-classmap": ["cfg"]
     },
-    "require": {}
+    "require": {
+        "monolog/monolog": "^1.23"
+    }
 }

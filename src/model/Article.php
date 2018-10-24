@@ -58,5 +58,9 @@ class Article {
     public function setContent($content) {
         $this->content = $content;
     }
+    
+    public function toString() {
+        return $this->id . ' - ' . $this->title;
+    }
 
 }

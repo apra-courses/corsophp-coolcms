@@ -1,6 +1,12 @@
 <?php
 class ArticleRepository {
     
+    private $logger;
+    
+    public function __construct() {
+        $this->logger = App::getInstance()->getLogger("ArticleRepository");
+    }
+    
     public function findAll() {
         try {
             $conn = Db::getConnection();            
@@ -16,7 +22,7 @@ class ArticleRepository {
             }
             return $articles;
         } catch (Exception $ex) {
-            // TODO: Gestire eccezione
+            $this->logger->error($ex->getMessage());
             return null;
         }        
     }
@@ -35,7 +41,7 @@ class ArticleRepository {
             }
             return null;
         } catch (Exception $ex) {
-            // TODO: Gestire eccezione
+            $this->logger->error($ex->getMessage());
             return null;
         }        
     }        
@@ -48,13 +54,14 @@ class ArticleRepository {
                     VALUES 
                         (:author, :publicationDate, :title, :summary, :content)';                                                            
             $st = $conn->prepare($sql);            
-            $st->execute($this->modelToRawData($article));
-            $data = $st->fetchAll(PDO::FETCH_ASSOC);
+            $st->execute($this->modelToRawData($article));            
             $st->closeCursor();
+            
+            $this->logger->info("Nuovo articolo inserito: " . $article->getTitle());
             
             return true;
         } catch (Exception $ex) {
-            // TODO: Gestire eccezione
+            $this->logger->error($ex->getMessage());
             return false;
         }        
     }
@@ -73,7 +80,7 @@ class ArticleRepository {
             
             return true;
         } catch (Exception $ex) {
-            // TODO: Gestire eccezione
+            $this->logger->error($ex->getMessage());
             return false;
         }        
     }

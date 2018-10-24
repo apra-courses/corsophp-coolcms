@@ -66,8 +66,11 @@ class BackendController {
         switch ($_POST['mode']) {
             case self::MODE_INSERT:
                 $article->setPublicationDate(null);
-                $this->articleRepository->insert($article);
-                $this->renderAdmin();
+                if ($this->articleRepository->insert($article)) {
+                    
+                } else {
+                    
+                }                
                 break;
             case self::MODE_UPDATE:
                 break;

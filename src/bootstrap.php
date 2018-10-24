@@ -2,6 +2,7 @@
 define('ROOT_DIR', __DIR__ . '/..');
 define('SRC_DIR', __DIR__);
 define('CFG_DIR', ROOT_DIR . '/config');
+define('LOG_DIR', ROOT_DIR . '/log');
 define('PUBLIC_DIR', __DIR__ . '/../public');
 define('CONTROLLER_DIR', SRC_DIR . '/controller');
 define('MODEL_DIR', SRC_DIR . '/model');

@@ -1,4 +1,7 @@
 <?php
+use \Monolog\Logger;
+use \Monolog\Handler\StreamHandler;
+use \Monolog\Formatter\LineFormatter;
 
 class App {
     
@@ -6,12 +9,12 @@ class App {
     
     private $config;
     private $pathInfo;
-    private $action;    
+    private $action;        
     
     private function __construct() {  
         $this->readConfig();
         $this->readPathInfo();
-        $this->readAction();
+        $this->readAction();        
     }
     
     public static function getInstance() {
@@ -33,7 +36,16 @@ class App {
     public function getAction() {        
         return $this->action ?: self::DEFAULT_CONTROLLER_ACTION;
     }
-        
+    
+    public function getLogger($channelName) {
+        $logger = new Logger($channelName);
+        $formatter = new LineFormatter(null, null, false, true);
+        $handler = new StreamHandler(LOG_DIR . '/app.log', $this->getConfig('LOG_LEVEL'));
+        $handler->setFormatter($formatter);
+        $logger->pushHandler($handler);
+        return $logger;
+    }
+    
     private function readConfig() {
         $this->config = require_once(CFG_DIR . '/config.php');
     }
@@ -45,7 +57,7 @@ class App {
     private function readAction() {
         $this->action = isset($_GET['action']) ? $_GET['action'] : '';
     }
-    
+        
     public function getUserProfile($key = null) {
         $userProfile = (isset($_SESSION['userProfile']) ? $_SESSION['userProfile'] : null);
         if ($key === null) {
