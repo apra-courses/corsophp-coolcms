@@ -114,3 +114,20 @@
   color: #000000;
   text-align: left;
 }
+
+#notify-container {
+    font-size: 1.2em;
+    padding: 5px;
+}
+
+#notify-title {
+    font-size: 1.4em;
+}
+
+#notify-message {
+    margin-top: 5px;    
+}
+
+#notify-actions {
+    margin-top: 10px;    
+}
