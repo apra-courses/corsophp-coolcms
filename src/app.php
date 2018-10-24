@@ -51,7 +51,7 @@ class App {
     }
     
     private function readPathInfo() {
-        $this->pathInfo = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '/';        
+        $this->pathInfo = isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : '/';        
     }
     
     private function readAction() {

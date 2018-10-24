@@ -2,8 +2,8 @@
     <head>
         <meta charset="UTF-8">
         <title><?=$this->title?></title>
-        <link rel="icon" href="<?= App::getInstance()->getConfig('ROOT')?>/img/favicon.png" type="image/png" />
-        <link rel="stylesheet" href="<?= App::getInstance()->getConfig('ROOT')?>/css/style.css" type="text/css" />
+        <link rel="icon" href="/img/favicon.png" type="image/png" />
+        <link rel="stylesheet" href="/css/style.css" type="text/css" />
     </head>
     <body>
                         
