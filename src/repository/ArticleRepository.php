@@ -1,6 +1,4 @@
 <?php
-require_once MODEL_DIR . '/Article.php';
-
 class ArticleRepository {
     
     public function findAll() {

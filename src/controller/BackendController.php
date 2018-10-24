@@ -1,7 +1,4 @@
 <?php
-require_once SRC_DIR . '/template.php';
-require_once REPOSITORY_DIR . '/ArticleRepository.php';
-
 class BackendController {
     
     const MODE_INSERT = 'insert';

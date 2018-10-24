@@ -35,7 +35,7 @@ class App {
     }
         
     private function readConfig() {
-        $this->config = require_once(__DIR__ . '/config.php');
+        $this->config = require_once(CFG_DIR . '/config.php');
     }
     
     private function readPathInfo() {

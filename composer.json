@@ -1,0 +1,14 @@
+{
+    "name": "apracorsi/coolcms",
+    "authors": [
+        {
+            "name": "Massimo Biagioli",
+            "email": "m.biagioli@palinformatica.it"
+        }
+    ],
+    "autoload": {
+        "classmap": ["src"],
+        "exclude-from-classmap": ["cfg"]
+    },
+    "require": {}
+}
