@@ -10,7 +10,7 @@ class ArticleRepository {
     public function findAll() {
         try {
             $conn = Db::getConnection();            
-            $sql = 'SELECT * FROM articles ORDER BY publicationDate DESC';
+            $sql = 'SELECT * FROM articles ORDER BY id DESC';
             $st = $conn->prepare($sql);
             $st->execute();
             $data = $st->fetchAll(PDO::FETCH_ASSOC);
