@@ -69,14 +69,21 @@ class ArticleRepository {
     public function update(Article $article) {
         try {
             $conn = Db::getConnection();            
-            $sql = 'INSERT INTO articles 
-                        (author, publicationDate, title, summary, content) 
-                    VALUES 
-                        (:author, :publicationDate, :title, :summary, :content)';                                                            
-            $st = $conn->prepare($sql);            
-            $st->execute($this->modelToRawData($article));
-            $data = $st->fetchAll(PDO::FETCH_ASSOC);
+            $sql = 'UPDATE articles 
+                    SET author=:author, title=:title, summary=:summary, content=:content
+                    WHERE id=:id';
+                        
+            $st = $conn->prepare($sql);       
+            $st->bindValue(":id", $article->getId(), PDO::PARAM_INT);
+            $st->bindValue(":author", $article->getAuthor(), PDO::PARAM_STR);
+            $st->bindValue(":title", $article->getTitle(), PDO::PARAM_STR);
+            $st->bindValue(":summary", $article->getSummary(), PDO::PARAM_STR);
+            $st->bindValue(":content", $article->getContent(), PDO::PARAM_STR);
+            
+            $st->execute();            
             $st->closeCursor();
+            
+            $this->logger->info("Articolo modificato: " . $article->toString());
             
             return true;
         } catch (Exception $ex) {
@@ -85,6 +92,24 @@ class ArticleRepository {
         }        
     }
     
+    public function delete($id) {
+        try {
+            $conn = Db::getConnection();            
+            $sql = 'DELETE FROM articles WHERE id=:id';      
+            $st = $conn->prepare($sql);            
+            $st->bindValue(":id", $id, PDO::PARAM_INT);
+            $st->execute();            
+            $st->closeCursor();
+            
+            $this->logger->info("Articolo $id eliminato");
+            
+            return true;
+        } catch (Exception $ex) {
+            $this->logger->error($ex->getMessage());
+            return false;
+        }        
+    }
+            
     private function rawDataToModel($rawData) {
         $article = new Article();
         $article->setId($rawData['id']);

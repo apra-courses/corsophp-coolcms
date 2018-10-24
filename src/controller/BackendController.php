@@ -53,7 +53,23 @@ class BackendController {
     }
     
     public function viewArticles() {
-        $this->renderAdmin('viewArticles');
+        $articles = $this->articleRepository->findAll();
+        $this->renderAdmin('viewArticles', null, $articles);
+    }
+    
+    public function editArticle() {
+        $id = $_GET['id'];
+        $article = $this->articleRepository->findByID($id);
+        $this->renderAdmin('newArticle', self::MODE_UPDATE, null, $article);
+    }
+    
+    public function deleteArticle() {
+        $id = $_GET['id'];
+        if ($this->articleRepository->delete($id)) {
+            // TODO
+        } else {
+            // TODO
+        }
     }
     
     public function confirmArticle() {
@@ -67,12 +83,18 @@ class BackendController {
             case self::MODE_INSERT:
                 $article->setPublicationDate(null);
                 if ($this->articleRepository->insert($article)) {
-                    
+                    // TODO
                 } else {
-                    
+                    // TODO
                 }                
                 break;
             case self::MODE_UPDATE:
+                $article->setId($_POST['id']);
+                if ($this->articleRepository->update($article)) {
+                    // TODO
+                } else {
+                    // TODO
+                }      
                 break;
         }
     }
@@ -107,13 +129,21 @@ class BackendController {
         echo $view->render('login.php');
     }
     
-    private function renderAdmin($action = null, $mode = 'insert') {
+    private function renderAdmin($action = null, $mode = null, $articles = null, $article = null) {
         $view = new Template();
         $view->title = "Cool CMS - Admin"; 
-        $view->mode = $mode;
+        if ($mode !== null) {
+            $view->mode = $mode;
+        }        
         if ($action !== null) {
             $view->action = $action;
         } 
+        if ($articles !== null) {
+            $view->articles = $articles;
+        }
+        if ($article !== null) {
+            $view->article = $article;
+        }
         echo $view->render('admin.php');
     }
     

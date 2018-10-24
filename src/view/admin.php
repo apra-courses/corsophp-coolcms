@@ -37,7 +37,7 @@
 
             <!-- content -->
             <div id="content">       
-                <?php if ($this->action === 'newArticle'): ?>
+                <?php if ($this->action === 'newArticle' || $this->action === 'editArticle'): ?>
                     <?php include(VIEW_DIR . '/admin/article.php'); ?>
                 <?php elseif ($this->action === 'viewArticles'): ?>
                     <?php include(VIEW_DIR . '/admin/articles.php'); ?>
