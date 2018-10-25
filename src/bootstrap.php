@@ -18,6 +18,14 @@ ini_set('display_errors', 0);
 ini_set('display_startup_errors', 0);
 error_reporting(E_ALL);
 
+// Custom function
+function shutdown() {
+    if (($error = error_get_last())) {
+        var_dump($error);
+    }
+}
+register_shutdown_function('shutdown');
+
 $controllerMap = array(
     '/' => 'FrontendController',
     '/admin' => 'BackendController'
