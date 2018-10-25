@@ -60,7 +60,8 @@
 .content-article-preview {    
 }
 
-.no-articles {
+.no-articles,
+#error_messages {
     font-size: 1.2em;
     color: red;
 }

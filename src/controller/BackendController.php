@@ -20,27 +20,29 @@ class BackendController {
     }
 
     public function login() {
+        // Non consente di accedere direttamente alla risorsa da browser, ma solamente attraverso chiamate ajax
+        if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && ($_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest')) {
 
-        // Filter $_POST: prevent XSS
-        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            // Filter $_POST: prevent XSS
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+            $username = $_POST['username'];
+            $password = $_POST['password'];
 
-        $view = new Template();
-
-        $loginResult = $this->validateLogin($username, $password);
-        if ($loginResult['EXITCODE'] !== 0) {
-            $this->renderLogin($loginResult['ERRORMSG']);
+            $loginResult = $this->validateLogin($username, $password);
+            if ($loginResult['EXITCODE'] === 0) {
+                // Salva profilo utente in sessione passando per il singleton App
+                $userProfile = array(
+                    'username' => $username,
+                    'role' => 'admin'
+                );
+                App::getInstance()->setUserProfile($userProfile);
+            }
+            
+            // Risposta in formato json
+            echo json_encode($loginResult);
         } else {
-            // Salva profilo utente in sessione passando per il singleton App
-            $userProfile = array(
-                'username' => $username,
-                'role' => 'admin'
-            );
-            App::getInstance()->setUserProfile($userProfile);
-
-            $this->renderAdmin();
+            die("Accesso non consentito a questa risorsa");
         }
     }
 
