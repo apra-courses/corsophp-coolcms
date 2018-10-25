@@ -13,6 +13,11 @@ require ROOT_DIR . '/vendor/autoload.php';
 
 session_start();
 
+// Error handling
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
+error_reporting(E_ALL);
+
 $controllerMap = array(
     '/' => 'FrontendController',
     '/admin' => 'BackendController'
