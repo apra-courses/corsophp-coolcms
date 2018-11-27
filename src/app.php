@@ -13,8 +13,8 @@ class App {
     private $action;        
     
     private function __construct() {  
-        $this->initErrorHandler();
         $this->readConfig();
+        $this->initErrorHandler();        
         $this->readPathInfo();
         $this->readAction();                
     }

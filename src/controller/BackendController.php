@@ -12,11 +12,11 @@ class BackendController {
     }
 
     public function index() {
-        if (App::getInstance()->isUserLoggedIn()) {
-            $this->renderAdmin();
-        } else {
+        if (!App::getInstance()->isUserLoggedIn()) {
             $this->renderLogin();
-        }
+            return;
+        }        
+        $this->renderAdmin();        
     }
 
     public function login() {
@@ -50,24 +50,40 @@ class BackendController {
     }
 
     public function newArticle() {
+        if (!App::getInstance()->isUserLoggedIn()) {
+            $this->renderLogin();
+            return;
+        }    
         $this->renderAdmin('newArticle', self::MODE_INSERT);
     }
 
     public function viewArticles() {
+        if (!App::getInstance()->isUserLoggedIn()) {
+            $this->renderLogin();
+            return;
+        }    
         $articles = $this->articleRepository->findAll();
         $this->renderAdmin('viewArticles', null, $articles);
     }
 
     public function editArticle() {
+        if (!App::getInstance()->isUserLoggedIn()) {
+            $this->renderLogin();
+            return;
+        }    
         $id = $_GET['id'];
         $article = $this->articleRepository->findByID($id);
         $this->renderAdmin('newArticle', self::MODE_UPDATE, null, $article);
     }
 
     public function deleteArticle() {
+        if (!App::getInstance()->isUserLoggedIn()) {
+            $this->renderLogin();
+            return;
+        }    
         $id = $_GET['id'];
         if ($this->articleRepository->delete($id)) {
-            $title = 'Articolo modificato con successo';
+            $title = 'Articolo eliminato con successo';
             $message = "ID Articolo: $id";
         } else {
             $title = 'Errore cancellazione articolo';
@@ -83,6 +99,10 @@ class BackendController {
     }
 
     public function confirmArticle() {
+        if (!App::getInstance()->isUserLoggedIn()) {
+            $this->renderLogin();
+            return;
+        }    
         $article = new Article();
         $article->setAuthor($_POST['author']);
         $article->setTitle($_POST['title']);
